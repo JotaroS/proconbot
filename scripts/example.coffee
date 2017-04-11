@@ -49,13 +49,13 @@ module.exports = (robot) ->
             # send '#test_jotaro',user+' '+d['ac_time']
             str = d['id']
             str = str.slice(-1)
-            if str == 'a'
+            if str == 'a' || str == '1'
               score += 100
-            else if str == 'b'
+            else if str == 'b' || str == '2'
               score += 200
-            else if str == 'c'
+            else if str == 'c' || str == '3'
               score += 300
-            else if str == 'd'
+            else if str == 'd' || str == '4'
               score += 500
           # send '#test_jotaro',score
           data.sort (a,b) ->
