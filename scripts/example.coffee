@@ -30,8 +30,8 @@ module.exports = (robot) ->
   promises = []
   users = ['jojojoe77','kmmech','hamko']
 
-  # robot.hear /badger/i, (res) ->
-  #   res.send "Badgers? BADGERS? WE DON'T NEED NO STINKIN BADGERS"
+  robot.hear /badger/i, (res) ->
+    res.send "Badgers? BADGERS? WE DON'T NEED NO STINKIN BADGERS"
   send = (chan,msg)->
     robot.send {room: chan}, msg
 
