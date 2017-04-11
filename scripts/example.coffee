@@ -136,9 +136,8 @@ module.exports = (robot) ->
                   score += 300
                 else if str == 'd' || str == '4'
                   score += 500
-                send '#test_jotaro', "MINMIN"+minDate
                 str = value_data.data[0]['id']
-                send '#test_jotaro',"_*Accepted!*_ : " +user+" has just solved the "+score+"-point problem *" + solved_data['id'] + "* and current total score is _*" +value_data.score+"*_"
+                send '#test_jotaro',"_*Accepted!*_ : " +user+" has just solved the _*"+score+"-point*_ problem *" + solved_data['id'] + "* and current total score is _*" +value_data.score+"*_"
                 ac[user] = value.cnt
                 data[user] = value_data.data
               .catch (error) ->
