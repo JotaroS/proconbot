@@ -27,11 +27,17 @@ module.exports = (robot) ->
 
   ac = {}
   data = {}
+  scores = {}
   promises = []
   users = ['jojojoe77','kmmech','mitar']
 
   robot.hear /badger/i, (res) ->
     res.send "Badgers? BADGERS? WE DON'T NEED NO STINKIN BADGERS"
+
+  robot.hear /!list/i, (res) ->
+    for u in users
+      res.send u+" solved "+ac[u]+" problems and total score is "+scores[u]
+
   send = (chan,msg)->
     robot.send {room: chan}, msg
 
@@ -60,7 +66,8 @@ module.exports = (robot) ->
           # send '#test_jotaro',score
           data.sort (a,b) ->
             return a['ac_time'] < b['ac_time'] ? 1 : 0
-          # send '#test_jotaro',data            
+          # send '#test_jotaro',data 
+          scores[user]=score
           resolve
             data: data
             score: score
