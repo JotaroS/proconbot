@@ -54,15 +54,26 @@ module.exports = (robot) ->
           for d in data
             # send '#test_jotaro',user+' '+d['ac_time']
             str = d['id']
-            str = str.slice(-1)
-            if str == 'a' || str == '1'
-              score += 100
-            else if str == 'b' || str == '2'
-              score += 200
-            else if str == 'c' || str == '3'
-              score += 300
-            else if str == 'd' || str == '4'
-              score += 500
+            if str.slice(0,3)=='arc'
+              str = str.slice(-1)
+              if str == 'a' || str == '1'
+                score += 100
+              else if str == 'b' || str == '2'
+                score += 200
+              else if str == 'c' || str == '3'
+                score += 300
+              else if str == 'd' || str == '4'
+                score += 500
+            else
+              str = str.slice(-1)
+              if str == 'a' || str == '1'
+                score += 300
+              else if str == 'b' || str == '2'
+                score += 500
+              else if str == 'c' || str == '3'
+                score += 600
+              else if str == 'd' || str == '4'
+                score += 1000
           # send '#test_jotaro',score
           data.sort (a,b) ->
             return a['ac_time'] < b['ac_time'] ? 1 : 0
@@ -121,6 +132,7 @@ module.exports = (robot) ->
       chk_num_ac(user)
         .then (value)->
           # send '#test_jotaro',user+' '+value.cnt+' '+ac[user]
+          # ac['jojojoe77'] = 0
           if value.cnt > ac[user]
             #get new data and say something
             get_data(user)
@@ -129,20 +141,34 @@ module.exports = (robot) ->
                 minDate = new Date("2000-01-01 00:00:00")
                 solved_data=0
                 for d in data
+                  # send '',user+' '+d['ac_time'] + " " + d['id']
                   if new Date(d['ac_time']) > minDate
                     minDate = new Date(d['ac_time'])
                     solved_data = d
+                # send '',"SOLVED "+solved_data['id']
+
                 score=0
                 str = solved_data['id']
                 str = str.slice(-1)
-                if str == 'a' || str == '1'
-                  score += 100
-                else if str == 'b' || str == '2'
-                  score += 200
-                else if str == 'c' || str == '3'
-                  score += 300
-                else if str == 'd' || str == '4'
-                  score += 500
+                if str.slice(0,3)=='arc'
+                  str = str.slice(-1)
+                  if str == 'a' || str == '1'
+                    score += 100
+                  else if str == 'b' || str == '2'
+                    score += 200
+                  else if str == 'c' || str == '3'
+                    score += 300
+                  else if str == 'd' || str == '4'
+                    score += 500
+                else
+                  if str == 'a' || str == '1'
+                    score += 300
+                  else if str == 'b' || str == '2'
+                    score += 500
+                  else if str == 'c' || str == '3'
+                    score += 600
+                  else if str == 'd' || str == '4'
+                    score += 1000
                 str = value_data.data[0]['id']
                 send '#01_code_competition',"_*Accepted!*_ : " +user+" has just solved the _*"+score+"-point*_ problem *" + solved_data['id'] + "* and current total score is _*" +value_data.score+"*_"
                 ac[user] = value.cnt
