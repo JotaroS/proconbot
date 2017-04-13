@@ -29,7 +29,7 @@ module.exports = (robot) ->
   data = {}
   scores = {}
   promises = []
-  users = ['jojojoe77','kmmech','mitar']
+  users = ['jojojoe77','kmmech','mitar','nomnom_mst']
 
   robot.hear /badger/i, (res) ->
     res.send "Badgers? BADGERS? WE DON'T NEED NO STINKIN BADGERS"
