@@ -41,6 +41,38 @@ module.exports = (robot) ->
   send = (chan,msg)->
     robot.send {room: chan}, msg
 
+  robot.hear /!result (.*)/i, (res) ->
+    send '',res.match[1]
+    username = res.match[1]
+    get_data(username)
+      .then (value)->
+        send '',username+' solved...'
+        for d in value.data
+          send '',d['id'] + " " + get_score(d['id'])+"-points "
+
+  get_score = (str)->
+    score = 0;
+    if str.slice(0,3)=='arc'
+      str = str.slice(-1)
+      if str == 'a' || str == '1'
+        score = 300
+      else if str == 'b' || str == '2'
+        score = 500
+      else if str == 'c' || str == '3'
+        score = 600
+      else if str == 'd' || str == '4'
+        score = 1000
+    else
+      str = str.slice(-1)
+      if str == 'a' || str == '1'
+        score = 100
+      else if str == 'b' || str == '2'
+        score = 200
+      else if str == 'c' || str == '3'
+        score = 300
+      else if str == 'd' || str == '4'
+        score = 500
+    return score
   get_data = (user)->
     return new Promise (resolve, reject) ->
       cnt = 0
@@ -53,27 +85,27 @@ module.exports = (robot) ->
           i =0
           for d in data
             # send '#test_jotaro',user+' '+d['ac_time']
-            str = d['id']
-            if str.slice(0,3)=='arc'
-              str = str.slice(-1)
-              if str == 'a' || str == '1'
-                score += 300
-              else if str == 'b' || str == '2'
-                score += 500
-              else if str == 'c' || str == '3'
-                score += 600
-              else if str == 'd' || str == '4'
-                score += 1000
-            else
-              str = str.slice(-1)
-              if str == 'a' || str == '1'
-                score += 100
-              else if str == 'b' || str == '2'
-                score += 200
-              else if str == 'c' || str == '3'
-                score += 300
-              else if str == 'd' || str == '4'
-                score += 500
+            score += get_score(d['id'])
+            # if str.slice(0,3)=='arc'
+            #   str = str.slice(-1)
+            #   if str == 'a' || str == '1'
+            #     score += 300
+            #   else if str == 'b' || str == '2'
+            #     score += 500
+            #   else if str == 'c' || str == '3'
+            #     score += 600
+            #   else if str == 'd' || str == '4'
+            #     score += 1000
+            # else
+            #   str = str.slice(-1)
+            #   if str == 'a' || str == '1'
+            #     score += 100
+            #   else if str == 'b' || str == '2'
+            #     score += 200
+            #   else if str == 'c' || str == '3'
+            #     score += 300
+            #   else if str == 'd' || str == '4'
+            #     score += 500
           # send '#test_jotaro',score
           data.sort (a,b) ->
             return a['ac_time'] < b['ac_time'] ? 1 : 0
@@ -147,29 +179,29 @@ module.exports = (robot) ->
                     solved_data = d
                 # send '',"SOLVED "+solved_data['id']
 
-                score=0
-                str = solved_data['id']
+                score=0 
+                str = get_score(solved_data['id'])
                 # str = str.slice(-1)
-                if str.slice(0,3)=='arc'
-                  str = str.slice(-1)
-                  if str == 'a' || str == '1'
-                    score += 300
-                  else if str == 'b' || str == '2'
-                    score += 500
-                  else if str == 'c' || str == '3'
-                    score += 600
-                  else if str == 'd' || str == '4'
-                    score += 1000
-                else
-                  str = str.slice(-1)
-                  if str == 'a' || str == '1'
-                    score += 100
-                  else if str == 'b' || str == '2'
-                    score += 200
-                  else if str == 'c' || str == '3'
-                    score += 300
-                  else if str == 'd' || str == '4'
-                    score += 500
+                # if str.slice(0,3)=='arc'
+                #   str = str.slice(-1)
+                #   if str == 'a' || str == '1'
+                #     score += 300
+                #   else if str == 'b' || str == '2'
+                #     score += 500
+                #   else if str == 'c' || str == '3'
+                #     score += 600
+                #   else if str == 'd' || str == '4'
+                #     score += 1000
+                # else
+                #   str = str.slice(-1)
+                #   if str == 'a' || str == '1'
+                #     score += 100
+                #   else if str == 'b' || str == '2'
+                #     score += 200
+                #   else if str == 'c' || str == '3'
+                #     score += 300
+                #   else if str == 'd' || str == '4'
+                #     score += 500
                 str = value_data.data[0]['id']
                 send '#01_code_competition',"_*Accepted!*_ : " +user+" has just solved the _*"+score+"-point*_ problem *" + solved_data['id'] + "* and current total score is _*" +value_data.score+"*_"
                 ac[user] = value.cnt
