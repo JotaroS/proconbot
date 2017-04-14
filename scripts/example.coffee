@@ -149,7 +149,7 @@ module.exports = (robot) ->
 
                 score=0
                 str = solved_data['id']
-                str = str.slice(-1)
+                # str = str.slice(-1)
                 if str.slice(0,3)=='arc'
                   str = str.slice(-1)
                   if str == 'a' || str == '1'
