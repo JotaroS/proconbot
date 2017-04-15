@@ -180,7 +180,7 @@ module.exports = (robot) ->
                 # send '',"SOLVED "+solved_data['id']
 
                 score=0 
-                str = get_score(solved_data['id'])
+                score =  get_score(solved_data['id'])
                 # str = str.slice(-1)
                 # if str.slice(0,3)=='arc'
                 #   str = str.slice(-1)
